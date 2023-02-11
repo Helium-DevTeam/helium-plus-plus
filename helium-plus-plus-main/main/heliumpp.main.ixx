@@ -7,17 +7,20 @@ module;
 export module heliumpp.main;
 
 import heliumpp.shared;
+import heliumpp.event;
 
 using namespace gsl;
 using namespace std;
 
 export namespace helium
 {
-
+	auto helium_main(int argc, char* argv[]) -> int
+	{
+		return 0;
+	}
 }
 
-export int main()
+export auto main(int argc, char* argv[]) -> int
 {
-	fmt::print("Hello World from Helium++ {}", helium::helium_version.to_string());
-	return 0;
+	return helium::helium_main(argc, argv);
 }

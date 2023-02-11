@@ -7,6 +7,11 @@
 		"ms-gsl",
 		"fmt",
 		"ftxui",
+		"spdlog",
+		"libunifex",
+		"nameof",
+		"toml11",
+		"eventpp",
 		"neargye-semver"
 	]
 }

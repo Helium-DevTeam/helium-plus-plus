@@ -19,13 +19,18 @@ find_package(fmt REQUIRED)
 find_package(Boost REQUIRED)
 find_package(Microsoft.GSL REQUIRED)
 find_package(ftxui REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
+find_package(nameof CONFIG REQUIRED)
+find_package(eventpp CONFIG REQUIRED)
 find_package(mdspan CONFIG REQUIRED)
+find_package(unifex CONFIG REQUIRED)
+find_package(toml11 CONFIG REQUIRED)
 
 find_path(NEARGYE_SEMVER_INCLUDE_DIR NAMES semver.hpp PATH_SUFFIXES neargye)
 
 add_executable (helium-plus-plus-main 
     "main/heliumpp.main.ixx" 
-    "shared/heliumpp.shared.ixx")
+    "shared/heliumpp.shared.ixx" "event/heliumpp.event.ixx")
 
 set_property(TARGET helium-plus-plus-main PROPERTY CXX_STANDARD 23)
 
@@ -39,4 +44,9 @@ target_link_libraries(helium-plus-plus-main
         ftxui::screen
         std::mdspan
         Microsoft.GSL::GSL
+        spdlog::spdlog_header_only
+        toml11::toml11
+        unifex::unifex
+        nameof::nameof
+        eventpp::eventpp
         ${Boost_LIBRARIES})

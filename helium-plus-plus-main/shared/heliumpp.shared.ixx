@@ -27,12 +27,11 @@ module;
 #include <neargye/semver.hpp>
 
 #include <concepts>
+#include <random>
 #include <string>
 #include <format>
 #include <type_traits>
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_io.hpp>
-#include <boost/uuid/uuid_generators.hpp>
+#include <stduuid/uuid.h>
 
 export module heliumpp.shared;
 
@@ -41,18 +40,28 @@ using namespace std;
 
 export namespace helium
 {
-	constexpr version helium_version{0, 0, 1, prerelease::alpha};
+	constexpr version helium_version{0, 0, 2, prerelease::alpha};
 }
 
 export namespace helium
 {
-	using namespace boost::uuids;
+	using namespace uuids;
 
 	class helium_object_class
 	{
 	private:
-		uuid object_uuid_ = random_generator()();
+		uuid object_uuid_;
 	public:
+		helium_object_class()
+		{
+			std::random_device rd;
+			auto seed_data = std::array<int, std::mt19937::state_size> {};
+			ranges::generate(seed_data, std::ref(rd));
+			std::seed_seq seq(std::begin(seed_data), std::end(seed_data));
+			std::mt19937 generator(seq);
+			uuid_random_generator gen{generator};
+			this->object_uuid_ = gen();
+		}
 		virtual ~helium_object_class() = default;
 
 		virtual auto to_string() const -> string
@@ -61,7 +70,7 @@ export namespace helium
 		}
 		auto uuid_string() const -> string
 		{
-			return boost::uuids::to_string(this->object_uuid_);
+			return uuids::to_string(this->object_uuid_);
 		}
 		auto uuid() const -> uuid
 		{
@@ -121,11 +130,16 @@ export namespace helium	//concepts utils, only in C++20 and after
 	concept helium_pointer = is_pointer_v<remove_cvref_t<T>>;
 
 	template <typename T>
-	concept helium_hashable = 
-		       helium_integral<T>
+	concept helium_hashable = requires(T a){
+		requires helium_integral<T>
 			or helium_std_string<T>
 			or helium_floating_point<T>
 			or helium_nullptr<T>
 			or helium_pointer<T>
 			or helium_char<T>;
+
+		typename std::hash<T>;
+
+		{ std::hash<T>{}(a) } -> convertible_to<size_t>;
+	};
 }

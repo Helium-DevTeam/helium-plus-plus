@@ -12,6 +12,7 @@
 		"nameof",
 		"toml11",
 		"eventpp",
+		"stduuid",
 		"neargye-semver"
 	]
 }

@@ -23,6 +23,7 @@ find_package(spdlog CONFIG REQUIRED)
 find_package(nameof CONFIG REQUIRED)
 find_package(eventpp CONFIG REQUIRED)
 find_package(mdspan CONFIG REQUIRED)
+find_package(stduuid CONFIG REQUIRED)
 find_package(unifex CONFIG REQUIRED)
 find_package(toml11 CONFIG REQUIRED)
 
@@ -49,6 +50,7 @@ target_link_libraries(helium-plus-plus-main
         spdlog::spdlog_header_only
         toml11::toml11
         unifex::unifex
+        stduuid
         nameof::nameof
         eventpp::eventpp
         ${Boost_LIBRARIES})

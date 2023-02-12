@@ -46,7 +46,7 @@ export namespace helium
 		
 		helium_event_manager.append_listener("heybro"s, listener);
 		helium_event_manager.dispatch_event("heybro"s, unordered_map<string, any>{});
-		//cout << helium_event_manager.to_string() << endl;
+		cout << helium_event_manager.to_string() << endl;
 		return 0;
 	}
 }

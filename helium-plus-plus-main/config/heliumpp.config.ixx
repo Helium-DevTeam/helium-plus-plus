@@ -24,9 +24,25 @@
 
 module;
 
+#include <format>
+#include <string>
+
 export module heliumpp.config;
+
+import heliumpp.shared;
+
+using namespace std;
 
 export namespace helium
 {
-	
+	class helium_config_manager_class : public helium_object_class
+	{
+	public:
+		auto to_string() const -> string override 
+		{
+			return format("obj:helium_config_manager_class<{}>", this->uuid_string());
+		}
+	};
+
+	helium_config_manager_class helium_config_manager;
 }

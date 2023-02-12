@@ -30,7 +30,7 @@ find_path(NEARGYE_SEMVER_INCLUDE_DIR NAMES semver.hpp PATH_SUFFIXES neargye)
 
 add_executable (helium-plus-plus-main 
     "main/heliumpp.main.ixx" 
-    "shared/heliumpp.shared.ixx" "event/heliumpp.event.ixx")
+    "shared/heliumpp.shared.ixx" "event/heliumpp.events.ixx")
 
 set_property(TARGET helium-plus-plus-main PROPERTY CXX_STANDARD 23)
 

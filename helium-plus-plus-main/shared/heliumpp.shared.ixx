@@ -85,7 +85,7 @@ export namespace helium	//concepts utils, only in C++20 and after
 	concept helium_integral = integral<T>;
 
 	template <typename T>
-	concept helium_floating_point = is_floating_point_v<T>;
+	concept helium_floating_point = floating_point<T>;
 
 	template <typename T>
 	concept helium_nullptr = same_as<remove_cvref_t<T>, nullptr_t>;

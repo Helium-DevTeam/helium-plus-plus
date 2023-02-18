@@ -24,14 +24,23 @@
 
 module;
 
+#include <format>
+
 export module heliumpp.server.server;
 
 import heliumpp.shared;
+import heliumpp.server.process_starter;
+
+using namespace std;
 
 export namespace helium
 {
 	class helium_server_class final : public helium_object_class
 	{
-		
+	public:
+		auto to_string() const -> string override
+		{
+			return format("obj:helium_server_class<{}>", this->uuid_string());
+		}
 	};
 }

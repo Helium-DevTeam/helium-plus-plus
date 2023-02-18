@@ -159,7 +159,7 @@ export namespace helium
 {
 	/**
 	 * \brief helium_abstract_manager_class is a interface class for manager classes.
-	 * \tparam ItemT Smart pointers to items
+	 * \tparam ItemT Smart pointers to items, must be convertible to NotOwningItemT
 	 * \tparam NotOwningItemT Non-owning Smart pointers to items
 	 * \tparam ItemUidT UID for items, uuids::uuid by default
 	 * \tparam ItemNameT Name for items, std::string by default

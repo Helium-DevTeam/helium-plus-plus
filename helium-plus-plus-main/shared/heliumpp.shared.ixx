@@ -50,6 +50,9 @@ export namespace helium
 {
 	using namespace uuids;
 
+	/**
+	 * \brief The common base class for all helium classes.
+	 */
 	class helium_object_class
 	{
 	private:
@@ -154,6 +157,13 @@ export namespace helium	//concepts utils, only in C++20 and after
 
 export namespace helium
 {
+	/**
+	 * \brief helium_abstract_manager_class is a interface class for manager classes.
+	 * \tparam ItemT Smart pointers to items
+	 * \tparam NotOwningItemT Non-owning Smart pointers to items
+	 * \tparam ItemUidT UID for items, uuids::uuid by default
+	 * \tparam ItemNameT Name for items, std::string by default
+	 */
 	template<typename ItemT, typename NotOwningItemT, helium_hashable ItemUidT = uuids::uuid, helium_hashable ItemNameT = std::string>
 		requires convertible_to<remove_cvref_t<ItemT>, remove_cvref_t<NotOwningItemT>>
 	class helium_abstract_manager_class : public helium_object_class

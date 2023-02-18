@@ -154,15 +154,18 @@ export namespace helium	//concepts utils, only in C++20 and after
 
 export namespace helium
 {
-	template<typename ItemT, helium_hashable ItemUidT = uuids::uuid, helium_hashable ItemNameT = std::string>
+	template<typename ItemT, typename NotOwningItemT, helium_hashable ItemUidT = uuids::uuid, helium_hashable ItemNameT = std::string>
+		requires convertible_to<remove_cvref_t<ItemT>, remove_cvref_t<NotOwningItemT>>
 	class helium_abstract_manager_class : public helium_object_class
 	{
 		using item_t = remove_cvref_t<ItemT>;
+		using non_owning_item_t = remove_cvref_t<NotOwningItemT>;
 		using item_uid_t = remove_cvref_t<ItemUidT>;
 		using item_name_t = remove_cvref_t<ItemNameT>;
 		using uid_map_t = std::unordered_map<item_name_t, item_uid_t>;
 		using item_map_t = std::unordered_map<item_uid_t, item_t>;
-		using item_expected_t = std::expected<item_t, std::string>;
+		using item_expected_t = std::expected<non_owning_item_t, std::string>;
+		using owning_item_expected_t = std::expected<item_t, std::string>;
 		using uid_expected_t = std::expected<item_uid_t, std::string>;
 
 	private:
@@ -186,6 +189,22 @@ export namespace helium
 			return unexpected("item_name lookup failed");
 		}
 		auto get_item(item_uid_t const& item_uid) const -> item_expected_t
+		{
+			if(this->item_map_.contains(item_uid))
+			{
+				return this->item_map_.at(item_uid);
+			}
+			return unexpected("item_uid lookup failed");
+		}
+		auto get_item_owning(item_name_t const& item_name) const -> owning_item_expected_t
+		{
+			if(this->uid_map_.contains(item_name))
+			{
+				return this->item_map_.at(this->uid_map_.at(item_name));
+			}
+			return unexpected("item_name lookup failed");
+		}
+		auto get_item_owning(item_uid_t const& item_uid) const -> owning_item_expected_t
 		{
 			if(this->item_map_.contains(item_uid))
 			{

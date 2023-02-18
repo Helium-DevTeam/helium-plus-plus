@@ -36,7 +36,7 @@ using namespace std;
 
 export namespace helium
 {
-	class helium_server_manager_class final : public helium_abstract_manager_class<shared_ptr<helium_server_class>>
+	class helium_server_manager_class final : public helium_abstract_manager_class<shared_ptr<helium_server_class>, weak_ptr<helium_server_class>>
 	{
 	public:
 		auto to_string() const -> string override

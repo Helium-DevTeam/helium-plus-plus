@@ -168,11 +168,12 @@ export namespace helium
 
 	public:
 		helium_abstract_manager_class() = default;	//default constructor
-		helium_abstract_manager_class(const helium_abstract_manager_class&& rhs) = default;	//move constructor
+		helium_abstract_manager_class(helium_abstract_manager_class&& rhs) = default;	//move constructor
 		helium_abstract_manager_class(const helium_abstract_manager_class& rhs) = delete;	//NO COPY
 
 		~helium_abstract_manager_class() override = 0;
 
 		auto operator=(const helium_abstract_manager_class& rhs) -> helium_abstract_manager_class& = delete;	//NO COPY
+		auto operator=(helium_abstract_manager_class&& rhs) -> helium_abstract_manager_class& = default;	//move assignment
 	};
 }

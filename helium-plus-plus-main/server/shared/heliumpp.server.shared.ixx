@@ -25,3 +25,8 @@
 module;
 
 export module heliumpp.server.shared;
+
+export namespace helium
+{
+	
+}

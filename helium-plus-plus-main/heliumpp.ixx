@@ -22,11 +22,12 @@
 * ----------------------------------------------------------------------------------------
 */
 
-module;
+export module heliumpp;
 
-export module heliumpp.server.server;
+export import heliumpp.config;
+export import heliumpp.events;
+export import heliumpp.server;
+export import heliumpp.shared;
+export import heliumpp.terminalui;
 
-export namespace helium
-{
-	
-}
+export import std.compat;

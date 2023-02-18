@@ -25,3 +25,8 @@
 module;
 
 export module heliumpp.server.manager;
+
+export namespace helium
+{
+	
+}

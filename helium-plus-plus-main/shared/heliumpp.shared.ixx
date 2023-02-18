@@ -31,6 +31,7 @@ module;
 #include <random>
 #include <string>
 #include <format>
+#include <expected>
 #include <map>
 #include <type_traits>
 #include <stduuid/uuid.h>
@@ -64,6 +65,7 @@ export namespace helium
 			uuid_random_generator gen{generator};
 			this->object_uuid_ = gen();
 		}
+
 		virtual ~helium_object_class() = default;
 
 		virtual auto to_string() const -> string
@@ -152,8 +154,7 @@ export namespace helium	//concepts utils, only in C++20 and after
 
 export namespace helium
 {
-	using namespace uuids;
-	template<typename ItemT, helium_hashable ItemUidT = uuid, helium_hashable ItemNameT = string>
+	template<typename ItemT, helium_hashable ItemUidT = uuids::uuid, helium_hashable ItemNameT = std::string>
 	class helium_abstract_manager_class : public helium_object_class
 	{
 		using item_t = remove_cvref_t<ItemT>;
@@ -161,6 +162,8 @@ export namespace helium
 		using item_name_t = remove_cvref_t<ItemNameT>;
 		using uid_map_t = std::unordered_map<item_name_t, item_uid_t>;
 		using item_map_t = std::unordered_map<item_uid_t, item_t>;
+		using item_expected_t = std::expected<item_t, std::string>;
+		using uid_expected_t = std::expected<item_uid_t, std::string>;
 
 	private:
 		uid_map_t uid_map_ = {};
@@ -173,5 +176,44 @@ export namespace helium
 
 		auto operator=(const helium_abstract_manager_class& rhs) -> helium_abstract_manager_class& = delete;	//NO COPY
 		auto operator=(helium_abstract_manager_class&& rhs) -> helium_abstract_manager_class& = default;	//move assignment
+
+		auto get_item(item_name_t const& item_name) const -> item_expected_t
+		{
+			if(this->uid_map_.contains(item_name))
+			{
+				return this->item_map_.at(this->uid_map_.at(item_name));
+			}
+			return unexpected("item_name lookup failed");
+		}
+		auto get_item(item_uid_t const& item_uid) const -> item_expected_t
+		{
+			if(this->item_map_.contains(item_uid))
+			{
+				return this->item_map_.at(item_uid);
+			}
+			return unexpected("item_uid lookup failed");
+		}
+		auto get_uid(item_name_t const& item_name) const -> uid_expected_t
+		{
+			if(this->uid_map_.contains(item_name))
+			{
+				return this->uid_map_.at(item_name);
+			}
+			return unexpected("item_name lookup failed");
+		}
+		auto set_item(item_name_t const& item_name, item_t const& item)
+		{
+			if(this->uid_map_.contains(item_name))
+			{
+				this->item_map_.at(this->uid_map_.at(item_name)) = item;
+			}
+		}
+		auto set_item(item_uid_t const& item_uid, item_t const& item)
+		{
+			if(this->uid_map_.contains(item_uid))
+			{
+				this->item_map_.at(item_uid) = item;
+			}
+		}
 	};
 }

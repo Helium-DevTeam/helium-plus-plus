@@ -34,6 +34,7 @@ export module heliumpp.main;
 
 import heliumpp.config;
 import heliumpp.shared;
+import heliumpp.server;
 import heliumpp.events;
 
 using namespace gsl;
@@ -45,6 +46,7 @@ export namespace helium
 	{
 		cout << helium_event_manager.to_string() << endl;
 		cout << helium_config_manager.to_string() << endl;
+		cout << helium_server_manager.to_string() << endl;
 		return 0;
 	}
 }

@@ -25,6 +25,7 @@
 module;
 
 #include <memory>
+#include <format>
 
 export module heliumpp.server.manager;
 
@@ -37,6 +38,12 @@ export namespace helium
 {
 	class helium_server_manager_class final : public helium_abstract_manager_class<shared_ptr<helium_server_class>>
 	{
-		
+	public:
+		auto to_string() const -> string override
+		{
+			return format("obj:helium_server_manager_class<{}>", this->uuid_string());
+		}
 	};
+
+	helium_server_manager_class helium_server_manager;
 }

@@ -30,9 +30,6 @@ module;
 #include <any>
 #include <unordered_map>
 #include <format>
-#include <unifex/sender_concepts.hpp>
-#include <unifex/scheduler_concepts.hpp>
-#include <unifex/stop_when.hpp>
 
 export module heliumpp.events;
 
@@ -55,12 +52,7 @@ export namespace helium
 	public:
 		auto dispatch_event(const event_id_t& event_id, const unordered_map<string, any>& param) const
 		{
-			using namespace unifex;/*
-			sender auto dispatch_lambda = [event_id, param, this]
-			{
-				this->dispatcher_.dispatch(event_id, event_id, param);
-			};
-			stop_when(dispatch_lambda, schedule_after(500ms));*/
+			this->dispatcher_.dispatch(event_id, event_id, param);
 		}
 		auto append_listener(const event_id_t& event_id, event_listener_prototype_t& listener) -> event_handle_t
 		{

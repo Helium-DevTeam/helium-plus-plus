@@ -33,7 +33,7 @@ add_executable (helium-plus-plus-main
     "main/heliumpp.main.ixx" 
     "shared/heliumpp.shared.ixx" 
     "events/heliumpp.events.ixx"
-    "config/heliumpp.config.ixx" "terminalui/heliumpp.terminalui.ixx")
+    "config/heliumpp.config.ixx" "terminalui/heliumpp.terminalui.ixx" "std/std.compat.ixx" "std/std.ixx")
 
 set_property(TARGET helium-plus-plus-main PROPERTY CXX_STANDARD 23)
 

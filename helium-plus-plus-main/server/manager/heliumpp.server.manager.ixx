@@ -24,9 +24,19 @@
 
 module;
 
+#include <memory>
+
 export module heliumpp.server.manager;
+
+import heliumpp.shared;
+import heliumpp.server.server;
+
+using namespace std;
 
 export namespace helium
 {
-	
+	class helium_server_manager_class final : public helium_abstract_manager_class<shared_ptr<helium_server_class>>
+	{
+		
+	};
 }

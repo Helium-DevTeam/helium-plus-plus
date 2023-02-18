@@ -26,7 +26,12 @@ module;
 
 export module heliumpp.server.server;
 
+import heliumpp.shared;
+
 export namespace helium
 {
-	
+	class helium_server_class final : public helium_object_class
+	{
+		
+	};
 }

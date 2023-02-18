@@ -26,10 +26,12 @@ module;
 
 #include <neargye/semver.hpp>
 
+#include <memory>
 #include <concepts>
 #include <random>
 #include <string>
 #include <format>
+#include <map>
 #include <type_traits>
 #include <stduuid/uuid.h>
 
@@ -130,16 +132,47 @@ export namespace helium	//concepts utils, only in C++20 and after
 	concept helium_pointer = is_pointer_v<remove_cvref_t<T>>;
 
 	template <typename T>
+	concept helium_uuid = same_as<remove_cvref_t<T>, uuids::uuid>;
+
+	template <typename T>
 	concept helium_hashable = requires(T a){
 		requires helium_integral<T>
 			or helium_std_string<T>
 			or helium_floating_point<T>
 			or helium_nullptr<T>
 			or helium_pointer<T>
-			or helium_char<T>;
+			or helium_char<T>
+			or helium_uuid<T>;
 
 		typename std::hash<T>;
 
 		{ std::hash<T>{}(a) } -> convertible_to<size_t>;
+	};
+}
+
+export namespace helium
+{
+	using namespace uuids;
+	template<typename ItemT, helium_hashable ItemUidT = uuid, helium_hashable ItemNameT = string>
+	class helium_abstract_manager_class : public helium_object_class
+	{
+		using item_t = remove_cvref_t<ItemT>;
+		using item_uid_t = remove_cvref_t<ItemUidT>;
+		using item_name_t = remove_cvref_t<ItemNameT>;
+		using uid_map_t = std::unordered_map<item_name_t, item_uid_t>;
+		using item_map_t = std::unordered_map<item_uid_t, item_t>;
+
+	private:
+		uid_map_t uid_map_ = {};
+		item_map_t item_map_ = {};
+
+	public:
+		helium_abstract_manager_class() = default;	//default constructor
+		helium_abstract_manager_class(const helium_abstract_manager_class&& rhs) = default;	//move constructor
+		helium_abstract_manager_class(const helium_abstract_manager_class& rhs) = delete;	//NO COPY
+
+		~helium_abstract_manager_class() override = 0;
+
+		auto operator=(const helium_abstract_manager_class& rhs) -> helium_abstract_manager_class& = delete;	//NO COPY
 	};
 }

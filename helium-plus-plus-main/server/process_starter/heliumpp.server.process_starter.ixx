@@ -28,9 +28,14 @@ module;
 
 export module heliumpp.server.process_starter;
 
+import heliumpp.shared;
+
 namespace bp = boost::process;
 
 export namespace helium
 {
-	
+	class helium_process_starter_class final : public helium_object_class
+	{
+		
+	};
 }

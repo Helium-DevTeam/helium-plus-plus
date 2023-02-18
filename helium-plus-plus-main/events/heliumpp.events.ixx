@@ -40,7 +40,7 @@ using namespace eventpp;
 
 export namespace helium
 {
-	class helium_event_manager_class : public helium_object_class
+	class helium_event_manager_class final : public helium_object_class
 	{
 	private:
 		using event_id_t = string;

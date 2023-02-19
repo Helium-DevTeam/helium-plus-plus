@@ -69,7 +69,7 @@ export namespace helium
 		string logger_thread_;
 
 		template <typename ... Ts>
-		auto __inner_log(spdlog::level::level_enum log_lvl, string_view fmt_str, Ts ... fmt_args) -> void
+		auto __inner_log(spdlog::level::level_enum log_lvl, string_view fmt_str, Ts&& ... fmt_args) -> void
 		{
 			this->logger_ptr_->log(log_lvl, format(
 				"[{}/{}] {}",
@@ -77,7 +77,7 @@ export namespace helium
 				this->logger_thread_,
 				vformat(
 					fmt_str,
-					make_format_args(fmt_args...)
+					make_format_args(forward<Ts>(fmt_args)...)
 				)
 			));
 		}
@@ -88,39 +88,39 @@ export namespace helium
 		}
 
 		template <typename ... Ts>
-		auto log(const helium_log_level_enum log_lvl, string_view fmt_str, Ts ... fmt_args) -> void
+		auto log(const helium_log_level_enum log_lvl, string_view fmt_str, Ts&& ... fmt_args) -> void
 		{
-			this->__inner_log(static_cast<spdlog::level::level_enum>(to_underlying(log_lvl)), fmt_str, fmt_args...);
+			this->__inner_log(static_cast<spdlog::level::level_enum>(to_underlying(log_lvl)), fmt_str, forward<Ts>(fmt_args)...);
 		}
 		template <typename ... Ts>
-		auto trace(string_view fmt_str, Ts ... fmt_args) -> void
+		auto trace(string_view fmt_str, Ts&& ... fmt_args) -> void
 		{
-			this->__inner_log(spdlog::level::level_enum::trace, fmt_str, fmt_args...);
+			this->__inner_log(spdlog::level::level_enum::trace, fmt_str, forward<Ts>(fmt_args)...);
 		}
 		template <typename ... Ts>
-		auto debug(string_view fmt_str, Ts ... fmt_args) -> void
+		auto debug(string_view fmt_str, Ts&& ... fmt_args) -> void
 		{
-			this->__inner_log(spdlog::level::level_enum::debug, fmt_str, fmt_args...);
+			this->__inner_log(spdlog::level::level_enum::debug, fmt_str, forward<Ts>(fmt_args)...);
 		}
 		template <typename ... Ts>
-		auto info(string_view fmt_str, Ts ... fmt_args) -> void
+		auto info(string_view fmt_str, Ts&& ... fmt_args) -> void
 		{
-			this->__inner_log(spdlog::level::level_enum::info, fmt_str, fmt_args...);
+			this->__inner_log(spdlog::level::level_enum::info, fmt_str, forward<Ts>(fmt_args)...);
 		}
 		template <typename ... Ts>
-		auto warning(string_view fmt_str, Ts ... fmt_args) -> void
+		auto warning(string_view fmt_str, Ts&& ... fmt_args) -> void
 		{
-			this->__inner_log(spdlog::level::level_enum::warn, fmt_str, fmt_args...);
+			this->__inner_log(spdlog::level::level_enum::warn, fmt_str, forward<Ts>(fmt_args)...);
 		}
 		template <typename ... Ts>
-		auto error(string_view fmt_str, Ts ... fmt_args) -> void
+		auto error(string_view fmt_str, Ts&& ... fmt_args) -> void
 		{
-			this->__inner_log(spdlog::level::level_enum::err, fmt_str, fmt_args...);
+			this->__inner_log(spdlog::level::level_enum::err, fmt_str, forward<Ts>(fmt_args)...);
 		}
 		template <typename ... Ts>
-		auto critical(string_view fmt_str, Ts ... fmt_args) -> void
+		auto critical(string_view fmt_str, Ts&& ... fmt_args) -> void
 		{
-			this->__inner_log(spdlog::level::level_enum::critical, fmt_str, fmt_args...);
+			this->__inner_log(spdlog::level::level_enum::critical, fmt_str, forward<Ts>(fmt_args)...);
 		}
 
 		auto to_string() const -> string override

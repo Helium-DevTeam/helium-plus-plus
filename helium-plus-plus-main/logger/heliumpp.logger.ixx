@@ -45,7 +45,7 @@ namespace helium
 	auto get_file_sink()
 	{
 		static auto async_file
-			= spdlog::create_async<sinks::daily_file_sink_mt>("helium_async_daily_file_logger", "logs/heliumpp-log.log", 23, 59);
+			= spdlog::create_async<sinks::daily_file_sink_mt>("heliumpp_logger", "logs/heliumpp-log.log", 23, 59);
 		return async_file;
 	}
 }
@@ -85,7 +85,6 @@ export namespace helium
 		explicit helium_logger_class(string_view logger_name, string_view logger_thread)
 			: logger_ptr_(get_file_sink()), logger_name_(logger_name), logger_thread_(logger_thread)
 		{
-			this->logger_ptr_->set_pattern("[%Y-%m-%d %T.%e] [%^%l%$] %v");
 		}
 
 		template <typename ... Ts>

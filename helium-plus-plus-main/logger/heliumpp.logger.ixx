@@ -30,6 +30,7 @@ module;
 
 #include <string>
 #include <memory>
+#include <iostream>
 #include <format>
 
 export module heliumpp.logger;
@@ -69,7 +70,7 @@ export namespace helium
 
 		template <typename ... Ts>
 		auto __inner_log(spdlog::level::level_enum log_lvl, string_view fmt_str, Ts ... fmt_args) -> void
-		{								 
+		{
 			this->logger_ptr_->log(log_lvl, format(
 				"[{}/{}] {}",
 				this->logger_name_,
@@ -82,9 +83,9 @@ export namespace helium
 		}
 	public:
 		explicit helium_logger_class(string_view logger_name, string_view logger_thread)
-			: logger_name_(logger_name), logger_thread_(logger_thread)
+			: logger_ptr_(get_file_sink()), logger_name_(logger_name), logger_thread_(logger_thread)
 		{
-			this->logger_ptr_ = get_file_sink();
+			this->logger_ptr_->set_pattern("[%Y-%m-%d %T.%e] [%^%l%$] %v");
 		}
 
 		template <typename ... Ts>

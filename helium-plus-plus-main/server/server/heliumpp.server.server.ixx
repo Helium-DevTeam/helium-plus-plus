@@ -40,7 +40,7 @@ export namespace helium
 	public:
 		auto to_string() const -> string override
 		{
-			return format("obj:helium_server_class<{}>", this->uuid_string());
+			return get_object_type_string(this);
 		}
 	};
 }

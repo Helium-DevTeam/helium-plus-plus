@@ -42,7 +42,7 @@ add_executable (helium-plus-plus-main
     "server/process_starter/heliumpp.server.process_starter.ixx" 
     "server/manager/heliumpp.server.manager.ixx" 
     "server/shared/heliumpp.server.shared.ixx" 
-    "heliumpp.ixx")
+    "heliumpp.ixx" "logger/heliumpp.logger.ixx")
 
 set_property(TARGET helium-plus-plus-main PROPERTY CXX_STANDARD 23)
 

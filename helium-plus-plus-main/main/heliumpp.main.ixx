@@ -36,14 +36,21 @@ import heliumpp.config;
 import heliumpp.shared;
 import heliumpp.server;
 import heliumpp.events;
+import heliumpp.logger;
 
 using namespace gsl;
 using namespace std;
+
+namespace helium
+{
+	helium_logger_class log("heliumpp", "main");
+}
 
 export namespace helium
 {
 	auto helium_main(int argc, char* argv[]) -> int
 	{
+		log.info("This is a {}", "test");
 		cout << helium_event_manager.to_string() << endl;
 		cout << helium_config_manager.to_string() << endl;
 		cout << helium_server_manager.to_string() << endl;

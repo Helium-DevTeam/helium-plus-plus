@@ -25,6 +25,7 @@
 module;
 
 #include <neargye/semver.hpp>
+#include <nameof.hpp>
 
 #include <memory>
 #include <concepts>
@@ -40,6 +41,7 @@ export module heliumpp.shared;
 
 using namespace semver;
 using namespace std;
+using namespace nameof;
 
 export namespace helium
 {
@@ -50,9 +52,22 @@ export namespace helium
 {
 	using namespace uuids;
 
+	class helium_object_class;
+
+	template <typename T>
+	concept helium_object =
+			   same_as<remove_cvref_t<T>, helium_object_class>
+			or derived_from<remove_cvref_t<T>, helium_object_class>;
+
+	auto get_object_type_string(auto const* this_ptr) -> string
+		requires helium_object<remove_cvref_t<remove_pointer_t<decltype(this_ptr)>>>
+	{
+		return format("obj:{}<{} at {:#x}>", nameof_short_type<decltype(*this_ptr)>(), this_ptr->uuid_string(), reinterpret_cast<uint64_t>(this_ptr));
+	}
+
 	/**
 	 * \brief The common base class for all helium classes.
-	 */
+	 */	
 	class helium_object_class
 	{
 	private:
@@ -73,7 +88,7 @@ export namespace helium
 
 		virtual auto to_string() const -> string
 		{
-			return format("obj:helium_object_class<{}>", this->uuid_string());
+			return get_object_type_string(this);
 		}
 		auto uuid_string() const -> string
 		{
@@ -88,11 +103,6 @@ export namespace helium
 
 export namespace helium	//concepts utils, only in C++20 and after
 {
-	template <typename T>
-	concept helium_object =
-			   same_as<remove_cvref_t<T>, helium_object_class>
-			or derived_from<remove_cvref_t<T>, helium_object_class>;
-
 	template <typename T>
 	concept helium_std_string = 
 		       same_as<remove_cvref_t<T>, string>

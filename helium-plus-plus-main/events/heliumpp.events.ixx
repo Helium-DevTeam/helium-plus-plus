@@ -76,7 +76,7 @@ export namespace helium
 		}
 		auto to_string() const -> string override
 		{
-			return format("obj:helium_event_manager_class<{}>", this->uuid_string());
+			return get_object_type_string(this);
 		}
 	};
 

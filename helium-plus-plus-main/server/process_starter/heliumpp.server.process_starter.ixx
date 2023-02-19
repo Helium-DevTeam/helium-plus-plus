@@ -24,7 +24,8 @@
 
 module;
 
-#include <boost/process.hpp>
+//#include <boost/process.hpp>
+
 #include <string>
 #include <memory>
 #include <format>
@@ -33,7 +34,7 @@ export module heliumpp.server.process_starter;
 
 import heliumpp.shared;
 
-namespace bp = boost::process;
+//namespace bp = boost::process;
 using namespace std;
 
 export namespace helium
@@ -42,24 +43,19 @@ export namespace helium
 	{
 	private:
 		string startup_command_line_ = {};
-		shared_ptr<bp::child> child_process_;
-		bp::opstream in_stream_;
-		bp::ipstream out_stream_;
+		//shared_ptr<bp::child> child_process_;
+		//bp::opstream in_stream_;
+		//bp::ipstream out_stream_;
 	public:
 		explicit helium_process_starter_class(string_view command_line)
 			:
 			startup_command_line_(command_line)
 		{
-			this->child_process_ = make_shared<bp::child>(
-				static_cast<string>(command_line), 
-				bp::std_out > this->out_stream_, 
-				bp::std_in < this->in_stream_
-			);
+			//this->child_process_ = make_shared<bp::child>(static_cast<string>(command_line), bp::std_out > this->out_stream_, bp::std_in < this->in_stream_);
 		}
-
 		auto to_string() const -> string override
 		{
-			return format("obj:helium_process_starter_class<{}>", this->uuid_string());
+			return get_object_type_string(this);
 		}
 	};
 }

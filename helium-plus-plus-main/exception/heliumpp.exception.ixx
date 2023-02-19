@@ -24,43 +24,42 @@
 
 module;
 
-#include <gsl/gsl>
-#include <unordered_map>
-#include <any>
+#include <ctime>
+#include <stacktrace>
+#include <exception>
 #include <iostream>
-#include <fmt/ostream.h>
 
-export module heliumpp.main;
+export module heliumpp.exception;
 
-import heliumpp.config;
-import heliumpp.shared;
-import heliumpp.server;
-import heliumpp.events;
 import heliumpp.logger;
+import heliumpp.shared;
 
-using namespace gsl;
 using namespace std;
-
-namespace helium
-{
-	helium_logger_class log("heliumpp", "main");
-}
 
 export namespace helium
 {
-	auto helium_main(int argc, char* argv[]) -> int
+	[[noreturn]] auto helium_exception_handler() -> void
 	{
-		cout << log.to_string() << endl;
-		cout << helium_event_manager.to_string() << endl;
-		cout << helium_config_manager.to_string() << endl;
-		log.info("awa {}", "awa");
-		cout << helium_server_manager.to_string() << endl;
-		throw "awa"s;
-		return 0;
+		helium_logger_class log("heliumpp", "CRASH");
+		const auto st = stacktrace::current();
+		log.critical("STACKTRACE : ");
+		for(auto& entry : st)
+		{
+			log.critical("{} in {} at line {}", entry.description(), entry.source_file(), entry.source_line());
+		}
+		exit(-1);
 	}
-}
+	class helium_exception_handler_helper_class : public helium_object_class
+	{
+	public:
+		helium_exception_handler_helper_class()
+		{
+			set_terminate(helium_exception_handler);
+		}
 
-export auto main(int argc, char* argv[]) -> int
-{
-	return helium::helium_main(argc, argv);
+		auto to_string() const -> string override
+		{
+			return get_object_type_string(this);
+		}
+	} helium_exception_handler_helper;
 }

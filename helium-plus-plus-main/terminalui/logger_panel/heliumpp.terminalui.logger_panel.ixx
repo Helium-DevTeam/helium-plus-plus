@@ -74,6 +74,9 @@ export namespace helium {
 		auto Render() -> Element final {
 			return this->scroller_container_->Render();
 		}
+		bool OnEvent(Event event) final {
+			return this->scroller_container_->OnEvent(event);
+		}
 
 		auto add_log_info(helium_tui_log_level_enum log_lvl, string log_str) {
 			string lvl_str = "[info] ";
@@ -120,9 +123,4 @@ export namespace helium {
 			return get_object_type_string(this);
 		}
 	};
-
-	shared_ptr<helium_tui_log_panel_class> helium_tui_log_panel_inner = Make<helium_tui_log_panel_class>();
-	Component helium_tui_log_panel = Container::Vertical({
-			helium_tui_log_panel_inner
-		});
 }

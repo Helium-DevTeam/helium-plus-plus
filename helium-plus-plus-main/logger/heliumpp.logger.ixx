@@ -36,7 +36,7 @@ module;
 export module heliumpp.logger;
 
 import heliumpp.shared;
-import heliumpp.terminalui.logger_panel;
+import heliumpp.terminalui.main;
 
 using namespace std;
 using namespace spdlog;
@@ -84,7 +84,7 @@ export namespace helium
 				)
 			);
 			this->logger_ptr_->log(log_lvl, out_str);
-			helium_tui_log_panel_inner->add_log_info(static_cast<helium_tui_log_level_enum>(log_lvl), out_str);
+			helium_tui_main_panel->get_logger_panel()->add_log_info(static_cast<helium_tui_log_level_enum>(log_lvl), out_str);
 		}
 	public:
 		explicit helium_logger_class(string_view logger_name, string_view logger_thread)

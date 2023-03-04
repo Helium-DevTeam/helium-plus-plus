@@ -41,13 +41,26 @@ using namespace ftxui;
 
 export namespace helium {
 	class helium_tui_main_panel_class final : public helium_object_class, public ComponentBase {
+	private:
+		shared_ptr<helium_tui_log_panel_class> helium_tui_log_panel_;
 	public:
-		helium_tui_main_panel_class() = default;
+		helium_tui_main_panel_class() :
+			helium_tui_log_panel_(Make<helium_tui_log_panel_class>())
+		{}
 
 		auto Render() -> Element final {
 			return vbox({
 					text("Hello Helium++ Terminal UI!"),
-				});
+					separator(),
+					this->helium_tui_log_panel_->Render(),
+				}) | border;
+		}
+		auto OnEvent(Event event) -> bool final {
+			return this->helium_tui_log_panel_->OnEvent(event);
+		}
+
+		auto get_logger_panel() const {
+			return this->helium_tui_log_panel_;
 		}
 
 		auto to_string() const -> string override
@@ -56,16 +69,10 @@ export namespace helium {
 		}
 	};
 
+	auto helium_tui_main_panel = Make<helium_tui_main_panel_class>();
+
 	auto start_helium_tui() {
 		auto screen = ScreenInteractive::Fullscreen();
-		auto main_container = Container::Vertical({
-				Window("logs", helium_tui_log_panel),
-			});
-		auto main_renderer = Renderer(main_container, [&]() {
-			return vbox({
-				main_container->Render()
-				});
-			});
-		return screen.Loop(main_renderer);
+		return screen.Loop(helium_tui_main_panel);
 	}
 }

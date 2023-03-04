@@ -66,7 +66,7 @@ export namespace helium {
                            text("") | focused,
                        }),
                 }) |
-                vscroll_indicator | yframe | yflex | reflect(box_) | border;
+                vscroll_indicator | yframe | yflex | reflect(box_);
         }
 
         bool OnEvent(Event event) final {

@@ -15,7 +15,6 @@ if (Boost_FOUND)
     link_directories(${Boost_LIBRARY_DIRS})
 endif ()
 
-find_package(fmt REQUIRED)
 find_package(Boost REQUIRED)
 find_package(Microsoft.GSL REQUIRED)
 find_package(ftxui REQUIRED)
@@ -35,8 +34,6 @@ add_executable (helium-plus-plus-main
     "events/heliumpp.events.ixx"
     "config/heliumpp.config.ixx" 
     "terminalui/heliumpp.terminalui.ixx" 
-    "std/std.compat.ixx" 
-    "std/std.ixx" 
     "server/heliumpp.server.ixx" 
     "server/server/heliumpp.server.server.ixx" 
     "server/process_starter/heliumpp.server.process_starter.ixx" 
@@ -58,7 +55,6 @@ include_directories(${NEARGYE_SEMVER_INCLUDE_DIR})
 
 target_link_libraries(helium-plus-plus-main
     PRIVATE
-        fmt::fmt
         ftxui::component
         ftxui::dom
         ftxui::screen

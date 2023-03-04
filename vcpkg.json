@@ -5,7 +5,6 @@
 		"boost",
 		"mdspan",
 		"ms-gsl",
-		"fmt",
 		"ftxui",
 		"spdlog",
 		"libunifex",

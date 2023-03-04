@@ -29,5 +29,3 @@ export import heliumpp.events;
 export import heliumpp.server;
 export import heliumpp.shared;
 export import heliumpp.terminalui;
-
-export import std.compat;

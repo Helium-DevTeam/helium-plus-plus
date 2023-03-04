@@ -32,8 +32,6 @@ module;
 
 #include <spdlog/common.h>
 
-#include <fmt/format.h>
-
 #include <format>
 #include <memory>
 #include <chrono>
@@ -78,38 +76,38 @@ export namespace helium {
 		}
 
 		auto add_log_info(helium_tui_log_level_enum log_lvl, string log_str) {
-			string lvl_str = "info"s;
+			string lvl_str = "[info]"s;
 			ftxui::Color lvl_color = ftxui::Color::Green;
 			if (log_lvl == helium_tui_log_level_enum::trace) {
-				lvl_str = "trace"s;
+				lvl_str = "[trace]"s;
 				lvl_color = ftxui::Color::GrayLight;
 			}
 			if (log_lvl == helium_tui_log_level_enum::debug) {
-				lvl_str = "debug"s;
+				lvl_str = "[debug]"s;
 				lvl_color = ftxui::Color::BlueLight;
 			}
 			if (log_lvl == helium_tui_log_level_enum::info) {
-				lvl_str = "info"s;
+				lvl_str = "[info]"s;
 				lvl_color = ftxui::Color::Green;
 			}
 			if (log_lvl == helium_tui_log_level_enum::warn) {
-				lvl_str = "warn"s;
+				lvl_str = "[warn]"s;
 				lvl_color = ftxui::Color::YellowLight;
 			}
 			if (log_lvl == helium_tui_log_level_enum::err) {
-				lvl_str = "error"s;
+				lvl_str = "[error]"s;
 				lvl_color = ftxui::Color::RedLight;
 			}
 			if (log_lvl == helium_tui_log_level_enum::critical) {
-				lvl_str = "critical"s;
+				lvl_str = "[critical]"s;
 				lvl_color = ftxui::Color::Red;
 			}
 			auto now = chrono::system_clock::now();
 			this->logs_.push_back(
 				hbox({
-					ftxui::text(format("[{:%F} {:%T}] [", now, now)),
+					//ftxui::text(format("[{:%F} {:%T}]", now, now)),
 					ftxui::text(lvl_str) | color(lvl_color),
-					ftxui::paragraph(format("] {}", log_str)) | xflex,
+					ftxui::paragraph(log_str) | xflex,
 				}) | xflex
 			);
 			while (this->logs_.size() > 65535) {

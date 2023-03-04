@@ -27,8 +27,8 @@ module;
 #include <gsl/gsl>
 #include <unordered_map>
 #include <any>
+#include <thread>
 #include <iostream>
-#include <fmt/ostream.h>
 
 export module heliumpp.main;
 
@@ -37,6 +37,7 @@ import heliumpp.shared;
 import heliumpp.server;
 import heliumpp.events;
 import heliumpp.logger;
+import heliumpp.terminalui;
 
 using namespace gsl;
 using namespace std;
@@ -50,12 +51,8 @@ export namespace helium
 {
 	auto helium_main(int argc, char* argv[]) -> int
 	{
-		cout << log.to_string() << endl;
-		cout << helium_event_manager.to_string() << endl;
-		cout << helium_config_manager.to_string() << endl;
-		log.info("awa {}", "awa");
-		cout << helium_server_manager.to_string() << endl;
-		throw "awa"s;
+		thread tui_thread = thread([]() {return start_helium_tui(); });
+		tui_thread.join();
 		return 0;
 	}
 }

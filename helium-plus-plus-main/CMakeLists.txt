@@ -42,7 +42,15 @@ add_executable (helium-plus-plus-main
     "server/process_starter/heliumpp.server.process_starter.ixx" 
     "server/manager/heliumpp.server.manager.ixx" 
     "server/shared/heliumpp.server.shared.ixx" 
-    "heliumpp.ixx" "logger/heliumpp.logger.ixx" "exception/heliumpp.exception.ixx")
+    "heliumpp.ixx" 
+    "logger/heliumpp.logger.ixx" 
+    "exception/heliumpp.exception.ixx" 
+    "terminalui/command_input/heliumpp.terminalui.command_input.ixx" 
+    "terminalui/logger_panel/heliumpp.terminalui.logger_panel.ixx"
+    "terminalui/main/heliumpp.terminalui.main.ixx"
+    "terminalui/settings_panel/heliumpp.terminalui.settings_panel.ixx" 
+    "terminalui/shared/heliumpp.terminalui.shared.ixx"
+    "terminalui/top_menu/heliumpp.terminalui.top_menu.ixx")
 
 set_property(TARGET helium-plus-plus-main PROPERTY CXX_STANDARD 23)
 

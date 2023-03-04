@@ -13,6 +13,7 @@
 		"toml11",
 		"eventpp",
 		"stduuid",
-		"neargye-semver"
+		"neargye-semver",
+		"taskflow"
 	]
 }

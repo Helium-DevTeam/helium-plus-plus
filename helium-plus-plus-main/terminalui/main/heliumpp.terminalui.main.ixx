@@ -24,11 +24,40 @@
 
 module;
 
-export module heliumpp.terminalui;
+#include "ftxui/component/component.hpp"
+#include "ftxui/component/screen_interactive.hpp"
+#include "ftxui/dom/elements.hpp"
+#include "ftxui/screen/screen.hpp"
+#include "ftxui/screen/string.hpp"
 
-export import heliumpp.terminalui.command_input;
-export import heliumpp.terminalui.logger_panel;
-export import heliumpp.terminalui.main;
-export import heliumpp.terminalui.settings_panel;
-export import heliumpp.terminalui.shared;
-export import heliumpp.terminalui.top_menu;
+export module heliumpp.terminalui.main;
+
+import heliumpp.shared;
+import heliumpp.terminalui.logger_panel;
+
+using namespace std;
+using namespace ftxui;
+
+export namespace helium {
+	class helium_tui_main_panel_class final : public helium_object_class, public ComponentBase {
+	public:
+		helium_tui_main_panel_class() = default;
+
+		auto Render() -> Element final {
+			return vbox({
+					text("Hello Helium++ Terminal UI!"),
+					helium_tui_log_panel->Render(),
+				});
+		}
+
+		auto to_string() const -> string override
+		{
+			return get_object_type_string(this);
+		}
+	};
+
+	auto start_helium_tui() {
+		auto screen = ScreenInteractive::Fullscreen();
+		return screen.Loop(Make<helium_tui_main_panel_class>());
+	}
+}

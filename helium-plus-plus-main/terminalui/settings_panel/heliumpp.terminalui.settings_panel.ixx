@@ -24,11 +24,10 @@
 
 module;
 
-export module heliumpp.terminalui;
+export module heliumpp.terminalui.settings_panel;
 
-export import heliumpp.terminalui.command_input;
-export import heliumpp.terminalui.logger_panel;
-export import heliumpp.terminalui.main;
-export import heliumpp.terminalui.settings_panel;
-export import heliumpp.terminalui.shared;
-export import heliumpp.terminalui.top_menu;
+import heliumpp.shared;
+
+export namespace helium {
+
+}

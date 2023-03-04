@@ -116,4 +116,10 @@ export namespace helium {
     Component Scroller(Component child) {
         return Make<ScrollerBase>(std::move(child));
     }
+
+    Component Window(std::string title, Component component) {
+        return Renderer(component, [component, title] {  //
+            return window(text(title), component->Render()) | flex;
+            });
+    }
 }

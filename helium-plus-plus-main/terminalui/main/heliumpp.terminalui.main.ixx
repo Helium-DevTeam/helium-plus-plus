@@ -33,6 +33,7 @@ module;
 export module heliumpp.terminalui.main;
 
 import heliumpp.shared;
+import heliumpp.terminalui.shared;
 import heliumpp.terminalui.logger_panel;
 
 using namespace std;
@@ -46,7 +47,6 @@ export namespace helium {
 		auto Render() -> Element final {
 			return vbox({
 					text("Hello Helium++ Terminal UI!"),
-					helium_tui_log_panel->Render(),
 				});
 		}
 
@@ -58,6 +58,14 @@ export namespace helium {
 
 	auto start_helium_tui() {
 		auto screen = ScreenInteractive::Fullscreen();
-		return screen.Loop(Make<helium_tui_main_panel_class>());
+		auto main_container = Container::Vertical({
+				Window("logs", helium_tui_log_panel),
+			});
+		auto main_renderer = Renderer(main_container, [&]() {
+			return vbox({
+				main_container->Render()
+				});
+			});
+		return screen.Loop(main_renderer);
 	}
 }

@@ -63,12 +63,12 @@ export namespace helium {
 		Component scroller_container_;
 	public:
 		helium_tui_log_panel_class() :
-			logs_({ 
-				vbox({}) 
-			}),
+			logs_({
+				vbox({})
+				}),
 			log_container_(Container::Vertical({
 				Renderer([&]() { return vbox({this->logs_}); })
-			})),
+				})),
 			scroller_container_(Scroller(this->log_container_)) {}
 
 		auto Render() -> Element final {
@@ -76,30 +76,30 @@ export namespace helium {
 		}
 
 		auto add_log_info(helium_tui_log_level_enum log_lvl, string log_str) {
-			string lvl_str = "[info]"s;
+			string lvl_str = "[info] ";
 			ftxui::Color lvl_color = ftxui::Color::Green;
 			if (log_lvl == helium_tui_log_level_enum::trace) {
-				lvl_str = "[trace]"s;
+				lvl_str = "[trace] ";
 				lvl_color = ftxui::Color::GrayLight;
 			}
 			if (log_lvl == helium_tui_log_level_enum::debug) {
-				lvl_str = "[debug]"s;
+				lvl_str = "[debug] ";
 				lvl_color = ftxui::Color::BlueLight;
 			}
 			if (log_lvl == helium_tui_log_level_enum::info) {
-				lvl_str = "[info]"s;
+				lvl_str = "[info] ";
 				lvl_color = ftxui::Color::Green;
 			}
 			if (log_lvl == helium_tui_log_level_enum::warn) {
-				lvl_str = "[warn]"s;
+				lvl_str = "[warn] ";
 				lvl_color = ftxui::Color::YellowLight;
 			}
 			if (log_lvl == helium_tui_log_level_enum::err) {
-				lvl_str = "[error]"s;
+				lvl_str = "[error] ";
 				lvl_color = ftxui::Color::RedLight;
 			}
 			if (log_lvl == helium_tui_log_level_enum::critical) {
-				lvl_str = "[critical]"s;
+				lvl_str = "[critical] ";
 				lvl_color = ftxui::Color::Red;
 			}
 			auto now = chrono::system_clock::now();
@@ -108,8 +108,8 @@ export namespace helium {
 					//ftxui::text(format("[{:%F} {:%T}]", now, now)),
 					ftxui::text(lvl_str) | color(lvl_color),
 					ftxui::paragraph(log_str) | xflex,
-				}) | xflex
-			);
+					}) | xflex
+					);
 			while (this->logs_.size() > 65535) {
 				this->logs_.erase(this->logs_.begin());
 			}
@@ -121,5 +121,8 @@ export namespace helium {
 		}
 	};
 
-	shared_ptr<helium_tui_log_panel_class> helium_tui_log_panel = Make<helium_tui_log_panel_class>();
+	shared_ptr<helium_tui_log_panel_class> helium_tui_log_panel_inner = Make<helium_tui_log_panel_class>();
+	Component helium_tui_log_panel = Container::Vertical({
+			helium_tui_log_panel_inner
+		});
 }

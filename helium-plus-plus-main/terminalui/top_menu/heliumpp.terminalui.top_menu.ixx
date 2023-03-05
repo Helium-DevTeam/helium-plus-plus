@@ -49,29 +49,30 @@ export namespace helium {
 		Components tab_children_;
 		Component tab_container_;
 		Component tab_menu_;
-		Component main_container_;
 	public:
 		explicit helium_tui_top_menu_class(vector<string> tab_entries, Components tab_children) :
 			selected_(0),
 			tab_entries_(tab_entries),
 			tab_children_(tab_children),
 			tab_container_(Container::Tab(this->tab_children_, &this->selected_)),
-			tab_menu_(Menu(&this->tab_entries_, &this->selected_, helium_horizontal_menu_option())),
-			main_container_(Container::Vertical({
-					tab_menu_,
-					tab_container_
-				}))
+			tab_menu_(Menu(&this->tab_entries_, &this->selected_, helium_horizontal_menu_option()))
 		{
 			this->Add(this->tab_container_);
 			this->Add(this->tab_menu_);
-			this->Add(this->main_container_);
 		}
 
 		auto Render() -> Element final {
-			return this->main_container_->Render();
+			return vbox({
+				this->tab_menu_->Render(),
+				separator(),
+				this->tab_container_->Render()
+				});
 		}
 		auto OnEvent(Event event) -> bool final {
-			return this->main_container_->OnEvent(event);
+			bool ret = true;
+			ret &= this->tab_container_->OnEvent(event);
+			ret &= this->tab_menu_->OnEvent(event);
+			return ret;
 		}
 
 		auto to_string() const -> string override

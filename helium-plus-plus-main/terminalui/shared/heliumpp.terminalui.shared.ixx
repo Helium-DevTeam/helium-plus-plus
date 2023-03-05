@@ -136,7 +136,7 @@ export namespace helium {
 
     auto helium_horizontal_menu_option() -> MenuOption {
         MenuOption option = MenuOption::HorizontalAnimated();
-        option.underline.follower_delay = 200ms;
+        option.underline.follower_delay = 50ms;
         return option;
     }
 }

@@ -30,6 +30,9 @@ module;
 #include "ftxui/screen/screen.hpp"
 #include "ftxui/screen/string.hpp"
 
+#include <memory>
+#include <string>
+
 export module heliumpp.terminalui.shared;
 
 import heliumpp.shared;
@@ -113,13 +116,27 @@ export namespace helium {
         Box box_;
     };
 
-    Component Scroller(Component child) {
+    auto Scroller(Component child) -> Component {
         return Make<ScrollerBase>(std::move(child));
     }
 
-    Component Window(std::string title, Component component) {
+    auto Window(std::string title, Component component) -> Component {
         return Renderer(component, [component, title] {  //
             return window(text(title), component->Render()) | flex;
             });
+    }
+
+    auto Empty() -> Component {
+        return Component{};
+    }
+
+    auto helium_component_cast(auto ptr) -> Component {
+        return static_pointer_cast<ComponentBase>(ptr);
+    }
+
+    auto helium_horizontal_menu_option() -> MenuOption {
+        MenuOption option = MenuOption::HorizontalAnimated();
+        option.underline.follower_delay = 200ms;
+        return option;
     }
 }

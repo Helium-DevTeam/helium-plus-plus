@@ -24,10 +24,34 @@
 
 module;
 
+#include "ftxui/component/component.hpp"
+#include "ftxui/component/screen_interactive.hpp"
+#include "ftxui/dom/elements.hpp"
+#include "ftxui/screen/screen.hpp"
+#include "ftxui/screen/string.hpp"
+
 export module heliumpp.terminalui.settings_panel;
 
 import heliumpp.shared;
 
-export namespace helium {
+using namespace std;
+using namespace ftxui;
 
+export namespace helium {
+	class helium_tui_settings_panel_class final : public helium_object_class, public ComponentBase {
+	public:
+		helium_tui_settings_panel_class() {}
+
+		auto Render() -> Element final {
+			return vbox({});
+		}
+		auto OnEvent(Event event) -> bool final {
+			return true;
+		}
+
+		auto to_string() const -> string override
+		{
+			return get_object_type_string(this);
+		}
+	};
 }

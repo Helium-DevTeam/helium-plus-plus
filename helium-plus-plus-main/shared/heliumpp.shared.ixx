@@ -62,7 +62,12 @@ export namespace helium
 	auto get_object_type_string(auto const* this_ptr) -> string
 		requires helium_object<remove_cvref_t<remove_pointer_t<decltype(this_ptr)>>>
 	{
-		return format("obj:{}<{} at {:#x}>", nameof_short_type<decltype(*this_ptr)>(), this_ptr->uuid_string(), reinterpret_cast<uint64_t>(this_ptr));
+		return format(
+			"obj:{}<{} at {:#x}>", 
+			nameof_short_type<decltype(*this_ptr)>(), 
+			this_ptr->uuid_string(), 
+			reinterpret_cast<uint64_t>(this_ptr)
+		);
 	}
 
 	/**

@@ -24,10 +24,63 @@
 
 module;
 
+#include "ftxui/component/component.hpp"
+#include "ftxui/component/screen_interactive.hpp"
+#include "ftxui/dom/elements.hpp"
+#include "ftxui/screen/screen.hpp"
+#include "ftxui/screen/string.hpp"
+
+#include <vector>
+#include <string>
+#include <memory>
+
 export module heliumpp.terminalui.top_menu;
 
 import heliumpp.shared;
+import heliumpp.terminalui.shared;
+
+using namespace std;
+using namespace ftxui;
 
 export namespace helium {
+	class helium_tui_top_menu_class final : public helium_object_class, public ComponentBase {
+		int selected_;
+		vector<string> tab_entries_;
+		Components tab_children_;
+		Component tab_container_;
+		Component tab_menu_;
+		Component main_container_;
+	public:
+		explicit helium_tui_top_menu_class(vector<string> tab_entries, Components tab_children) :
+			selected_(0),
+			tab_entries_(tab_entries),
+			tab_children_(tab_children),
+			tab_container_(Container::Tab(this->tab_children_, &this->selected_)),
+			tab_menu_(Menu(&this->tab_entries_, &this->selected_, helium_horizontal_menu_option())),
+			main_container_(Container::Vertical({
+					tab_menu_,
+					tab_container_
+				}))
+		{
+			this->Add(this->tab_container_);
+			this->Add(this->tab_menu_);
+			this->Add(this->main_container_);
+		}
 
+		auto Render() -> Element final {
+			return this->main_container_->Render();
+		}
+		auto OnEvent(Event event) -> bool final {
+			return this->main_container_->OnEvent(event);
+		}
+
+		auto to_string() const -> string override
+		{
+			return get_object_type_string(this);
+		}
+	};
+
+	auto make_helium_tui_top_menu(vector<string> tab_entries, Components tab_children) -> shared_ptr<helium_tui_top_menu_class> {
+		return make_shared<helium_tui_top_menu_class>(tab_entries, tab_children);
+	}
 }

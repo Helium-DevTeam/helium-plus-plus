@@ -69,12 +69,15 @@ export namespace helium {
 			log_container_(Container::Vertical({
 				Renderer([&]() { return vbox({this->logs_}); })
 				})),
-			scroller_container_(Scroller(this->log_container_)) {}
+			scroller_container_(Scroller(this->log_container_)) 
+		{
+			this->Add(this->scroller_container_);
+		}
 
 		auto Render() -> Element final {
 			return this->scroller_container_->Render();
 		}
-		bool OnEvent(Event event) final {
+		auto OnEvent(Event event) -> bool final {
 			return this->scroller_container_->OnEvent(event);
 		}
 

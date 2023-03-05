@@ -35,6 +35,7 @@ export module heliumpp.terminalui.main;
 import heliumpp.shared;
 import heliumpp.terminalui.shared;
 import heliumpp.terminalui.logger_panel;
+import heliumpp.terminalui.top_menu;
 
 using namespace std;
 using namespace ftxui;
@@ -43,20 +44,39 @@ export namespace helium {
 	class helium_tui_main_panel_class final : public helium_object_class, public ComponentBase {
 	private:
 		shared_ptr<helium_tui_log_panel_class> helium_tui_log_panel_;
+		shared_ptr<helium_tui_top_menu_class> helium_tui_top_menu_;
 	public:
 		helium_tui_main_panel_class() :
-			helium_tui_log_panel_(Make<helium_tui_log_panel_class>())
-		{}
+			helium_tui_log_panel_(Make<helium_tui_log_panel_class>()),
+			helium_tui_top_menu_(make_helium_tui_top_menu(
+				{
+					"Summary",
+					"Servers",
+					"Settings"
+				},
+				{
+					Empty(),
+					Empty(),
+					Empty()
+				}
+				))
+		{
+			this->Add(this->helium_tui_log_panel_);
+			this->Add(this->helium_tui_top_menu_);
+		}
 
 		auto Render() -> Element final {
 			return vbox({
-					text("Hello Helium++ Terminal UI!"),
+					this->helium_tui_top_menu_->Render(),
 					separator(),
 					this->helium_tui_log_panel_->Render(),
 				}) | border;
 		}
 		auto OnEvent(Event event) -> bool final {
-			return this->helium_tui_log_panel_->OnEvent(event);
+			bool ret = true;
+			ret &= this->helium_tui_log_panel_->OnEvent(event);
+			ret &= this->helium_tui_top_menu_->OnEvent(event);
+			return ret;
 		}
 
 		auto get_logger_panel() const {

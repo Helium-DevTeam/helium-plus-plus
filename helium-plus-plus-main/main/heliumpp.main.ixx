@@ -52,11 +52,7 @@ export namespace helium
 	auto helium_main(int argc, char* argv[]) -> int
 	{
 		thread tui_thread = thread([]() {return start_helium_tui(); });
-		int i = 100;
-		while (i > 0) {
-			log.debug("test{}", i);
-			--i;
-		}
+		log.info("Helium++ {}", helium_version_string());
 		tui_thread.join();
 		return 0;
 	}

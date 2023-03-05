@@ -46,6 +46,9 @@ using namespace nameof;
 export namespace helium
 {
 	constexpr version helium_version{0, 0, 2, prerelease::alpha};
+	auto helium_version_string() -> string {
+		return to_string(helium_version);
+	}
 }
 
 export namespace helium

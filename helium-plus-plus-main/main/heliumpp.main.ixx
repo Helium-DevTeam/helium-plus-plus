@@ -52,7 +52,12 @@ export namespace helium
 	auto helium_main(int argc, char* argv[]) -> int
 	{
 		thread tui_thread = thread([]() {return start_helium_tui(); });
-		log.info("Helium++ {}", helium_version_string());
+		log.info(R"( _   _      _ _                             )");
+		log.info(R"(| | | | ___| (_)_   _ _ __ ___    _     _   )");
+		log.info(R"(| |_| |/ _ \ | | | | | '_ ` _ \ _| |_ _| |_ )");
+		log.info(R"(|  _  |  __/ | | |_| | | | | | |_   _|_   _|)");
+		log.info(R"(|_| |_|\___|_|_|\__,_|_| |_| |_| |_|   |_|  )");
+		log.info("Helium++ {}, Copyright Helium Devteam 2020-2023", helium_version_string());
 		tui_thread.join();
 		return 0;
 	}

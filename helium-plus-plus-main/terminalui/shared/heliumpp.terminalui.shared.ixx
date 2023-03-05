@@ -127,7 +127,7 @@ export namespace helium {
     }
 
     auto Empty() -> Component {
-        return Component{};
+        return make_shared<ComponentBase>();
     }
 
     auto helium_component_cast(auto ptr) -> Component {

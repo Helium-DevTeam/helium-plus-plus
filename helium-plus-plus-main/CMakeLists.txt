@@ -42,12 +42,12 @@ add_executable (helium-plus-plus-main
     "heliumpp.ixx" 
     "logger/heliumpp.logger.ixx" 
     "exception/heliumpp.exception.ixx" 
-    "terminalui/command_input/heliumpp.terminalui.command_input.ixx" 
-    "terminalui/logger_panel/heliumpp.terminalui.logger_panel.ixx"
+    "terminalui/component/command_input/heliumpp.terminalui.component.command_input.ixx" 
+    "terminalui/component/logger_panel/heliumpp.terminalui.component.logger_panel.ixx"
     "terminalui/main/heliumpp.terminalui.main.ixx"
-    "terminalui/settings_panel/heliumpp.terminalui.settings_panel.ixx" 
+    "terminalui/component/settings_panel/heliumpp.terminalui.component.settings_panel.ixx" 
     "terminalui/shared/heliumpp.terminalui.shared.ixx"
-    "terminalui/top_menu/heliumpp.terminalui.top_menu.ixx")
+    "terminalui/component/top_menu/heliumpp.terminalui.component.top_menu.ixx" "terminalui/animation/startup/heliumpp.terminalui.animation.startup.ixx")
 
 set_property(TARGET helium-plus-plus-main PROPERTY CXX_STANDARD 23)
 

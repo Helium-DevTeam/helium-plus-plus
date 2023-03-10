@@ -24,4 +24,4 @@
 
 module;
 
-export module heliumpp.terminalui.command_input;
+export module heliumpp.terminalui.component.command_input;

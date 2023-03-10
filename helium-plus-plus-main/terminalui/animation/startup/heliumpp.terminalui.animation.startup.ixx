@@ -24,12 +24,8 @@
 
 module;
 
-export module heliumpp.terminalui;
+export module heliumpp.terminalui.animation.startup;
 
-export import heliumpp.terminalui.animation.startup;
-export import heliumpp.terminalui.component.command_input;
-export import heliumpp.terminalui.component.logger_panel;
-export import heliumpp.terminalui.main;
-export import heliumpp.terminalui.component.settings_panel;
-export import heliumpp.terminalui.shared;
-export import heliumpp.terminalui.component.top_menu;
+export namespace helium {
+
+}

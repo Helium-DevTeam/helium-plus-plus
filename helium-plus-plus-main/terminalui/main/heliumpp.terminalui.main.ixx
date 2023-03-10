@@ -34,8 +34,8 @@ export module heliumpp.terminalui.main;
 
 import heliumpp.shared;
 import heliumpp.terminalui.shared;
-import heliumpp.terminalui.logger_panel;
-import heliumpp.terminalui.top_menu;
+import heliumpp.terminalui.component.logger_panel;
+import heliumpp.terminalui.component.top_menu;
 
 using namespace std;
 using namespace ftxui;

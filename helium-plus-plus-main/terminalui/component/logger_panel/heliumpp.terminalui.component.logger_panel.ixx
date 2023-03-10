@@ -36,7 +36,7 @@ module;
 #include <memory>
 #include <chrono>
 
-export module heliumpp.terminalui.logger_panel;
+export module heliumpp.terminalui.component.logger_panel;
 
 import heliumpp.shared;
 import heliumpp.terminalui.shared;

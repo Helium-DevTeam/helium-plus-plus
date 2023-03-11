@@ -9,7 +9,7 @@
 		"spdlog",
 		"libunifex",
 		"nameof",
-		"toml11",
+		"tomlplusplus",
 		"eventpp",
 		"stduuid",
 		"neargye-semver",

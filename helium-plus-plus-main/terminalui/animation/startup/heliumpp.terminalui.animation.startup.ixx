@@ -24,8 +24,27 @@
 
 module;
 
+#include "ftxui/component/component.hpp"
+#include "ftxui/component/screen_interactive.hpp"
+#include "ftxui/dom/elements.hpp"
+
 export module heliumpp.terminalui.animation.startup;
 
-export namespace helium {
+import heliumpp.shared;
+import heliumpp.terminalui.shared;
 
+using namespace std;
+using namespace ftxui;
+
+export namespace helium {
+	class helium_tui_animation_startup final : public helium_object_class, public ComponentBase
+	{
+	public:
+		helium_tui_animation_startup() = default;
+
+		auto to_string() const -> string override
+		{
+			return get_object_type_string(this);
+		}
+	};
 }

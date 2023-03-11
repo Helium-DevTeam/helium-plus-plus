@@ -61,6 +61,7 @@ export namespace helium {
 		Elements logs_;
 		Component log_container_;
 		Component scroller_container_;
+		Box box_;
 	public:
 		helium_tui_log_panel_class() :
 			logs_({
@@ -75,10 +76,16 @@ export namespace helium {
 		}
 
 		auto Render() -> Element final {
-			return this->scroller_container_->Render();
+			return vbox({ this->scroller_container_->Render() }) | flex | reflect(this->box_);
 		}
 		auto OnEvent(Event event) -> bool final {
+			if (event.is_mouse() && not this->box_.Contain(event.mouse().x, event.mouse().y)) {
+				return false;
+			}
 			return this->scroller_container_->OnEvent(event);
+		}
+		auto Focusable() const -> bool final {
+			return true;
 		}
 
 		auto add_log_info(helium_tui_log_level_enum log_lvl, string log_str) {

@@ -45,7 +45,7 @@ using namespace nameof;
 
 export namespace helium
 {
-	constexpr version helium_version{0, 0, 3, prerelease::alpha};
+	constexpr version helium_version{0, 0, 4, prerelease::alpha};
 	auto helium_version_string() -> string {
 		return to_string(helium_version);
 	}
@@ -196,7 +196,7 @@ export namespace helium
 		using owning_item_expected_t = std::expected<item_t, std::string>;
 		using uid_expected_t = std::expected<item_uid_t, std::string>;
 
-	private:
+	protected:
 		uid_map_t uid_map_ = {};
 		item_map_t item_map_ = {};
 

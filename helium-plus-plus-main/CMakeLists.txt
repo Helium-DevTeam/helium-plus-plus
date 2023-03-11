@@ -24,7 +24,7 @@ find_package(eventpp CONFIG REQUIRED)
 find_package(mdspan CONFIG REQUIRED)
 find_package(stduuid CONFIG REQUIRED)
 find_package(unifex CONFIG REQUIRED)
-find_package(toml11 CONFIG REQUIRED)
+find_package(tomlplusplus CONFIG REQUIRED)
 
 find_path(NEARGYE_SEMVER_INCLUDE_DIR NAMES semver.hpp PATH_SUFFIXES neargye)
 
@@ -61,9 +61,9 @@ target_link_libraries(helium-plus-plus-main
         std::mdspan
         Microsoft.GSL::GSL
         spdlog::spdlog_header_only
-        toml11::toml11
         unifex::unifex
         stduuid
         nameof::nameof
         eventpp::eventpp
+        tomlplusplus::tomlplusplus
         ${Boost_LIBRARIES})

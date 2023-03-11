@@ -27,26 +27,166 @@ module;
 #include "ftxui/component/component.hpp"
 #include "ftxui/component/screen_interactive.hpp"
 #include "ftxui/dom/elements.hpp"
-#include "ftxui/screen/screen.hpp"
-#include "ftxui/screen/string.hpp"
+
+#include <vector>
+#include <string>
 
 export module heliumpp.terminalui.component.settings_panel;
 
 import heliumpp.shared;
+import heliumpp.terminalui.shared;
 
 using namespace std;
 using namespace ftxui;
 
 export namespace helium {
-	class helium_tui_settings_panel_class final : public helium_object_class, public ComponentBase {
+	class helium_tui_settings_entry_bool final : public helium_object_class, public ComponentBase
+	{
 	public:
-		helium_tui_settings_panel_class() {}
+		helium_tui_settings_entry_bool() = default;
+
+		auto to_string() const -> string override
+		{
+			return get_object_type_string(this);
+		}
+	};
+
+	class helium_tui_settings_entry_integer final : public helium_object_class, public ComponentBase
+	{
+	public:
+		helium_tui_settings_entry_integer() = default;
+
+		auto to_string() const -> string override
+		{
+			return get_object_type_string(this);
+		}
+	};
+
+	class helium_tui_settings_entry_float final : public helium_object_class, public ComponentBase
+	{
+	public:
+		helium_tui_settings_entry_float() = default;
+
+		auto to_string() const -> string override
+		{
+			return get_object_type_string(this);
+		}
+	};
+
+	class helium_tui_settings_entry_string final : public helium_object_class, public ComponentBase
+	{
+	public:
+		helium_tui_settings_entry_string() = default;
+
+		auto to_string() const -> string override
+		{
+			return get_object_type_string(this);
+		}
+	};
+
+	class helium_tui_settings_preferences_subpanel final : public helium_object_class, public ComponentBase
+	{
+	public:
+		helium_tui_settings_preferences_subpanel() = default;
+
+		auto Render() -> Element final
+		{
+			return vbox({
+				text("Preferences") | bold | color(Color::BlueLight)
+			}) | flex;
+		}
+
+		auto to_string() const -> string override
+		{
+			return get_object_type_string(this);
+		}
+	};
+
+	class helium_tui_settings_server_subpanel final : public helium_object_class, public ComponentBase
+	{
+	public:
+		helium_tui_settings_server_subpanel() = default;
+
+		auto Render() -> Element final
+		{
+			return vbox({
+				text("Server") | bold | color(Color::BlueLight)
+			}) | flex;
+		}
+
+		auto to_string() const -> string override
+		{
+			return get_object_type_string(this);
+		}
+	};
+
+	class helium_tui_settings_extension_subpanel final : public helium_object_class, public ComponentBase
+	{
+	public:
+		helium_tui_settings_extension_subpanel() = default;
+
+		auto Render() -> Element final
+		{
+			return vbox({
+				text("Extension") | bold | color(Color::BlueLight)
+			}) | flex;
+		}
+
+		auto to_string() const -> string override
+		{
+			return get_object_type_string(this);
+		}
+	};
+
+	class helium_tui_settings_panel_class final : public helium_object_class, public ComponentBase {
+	private:
+		Box box_;
+		int selected_;
+		vector<string> entries_;
+		Components tabs_;
+		Component side_menu_;
+		Component menu_tabs_;
+		Component settings_panel_container_;
+	public:
+		helium_tui_settings_panel_class() :
+			selected_(0),
+			entries_(
+				{
+					"Preferences",
+					"Server",
+					"Extension",
+				}),
+			tabs_(
+				{
+					Make<helium_tui_settings_preferences_subpanel>(),
+					Make<helium_tui_settings_server_subpanel>(),
+					Make<helium_tui_settings_extension_subpanel>(),
+				}
+			),
+			side_menu_(Menu(&this->entries_, &this->selected_)),
+			menu_tabs_(Container::Tab(this->tabs_, &this->selected_)),
+			settings_panel_container_(Container::Horizontal(
+				{
+					side_menu_,
+					menu_tabs_,
+				}
+			))
+		{
+			this->Add(this->settings_panel_container_);
+		}
 
 		auto Render() -> Element final {
-			return vbox({});
+			return hbox({ 
+					this->side_menu_->Render(),
+					separator(),
+					this->menu_tabs_->Render(),
+				})| flex | reflect(this->box_);
 		}
 		auto OnEvent(Event event) -> bool final {
-			return true;
+			if (event.is_mouse() && not this->box_.Contain(event.mouse().x, event.mouse().y)) {
+				return false;
+			}
+			return this->settings_panel_container_->OnEvent(event);
 		}
 
 		auto to_string() const -> string override

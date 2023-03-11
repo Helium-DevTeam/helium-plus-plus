@@ -36,6 +36,7 @@ import heliumpp.shared;
 import heliumpp.terminalui.shared;
 import heliumpp.terminalui.component.logger_panel;
 import heliumpp.terminalui.component.top_menu;
+import heliumpp.terminalui.component.settings_panel;
 
 using namespace std;
 using namespace ftxui;
@@ -45,6 +46,8 @@ export namespace helium {
 	private:
 		shared_ptr<helium_tui_log_panel_class> helium_tui_log_panel_;
 		shared_ptr<helium_tui_top_menu_class> helium_tui_top_menu_;
+		Component main_panel_container_;
+		Box box_;
 	public:
 		helium_tui_main_panel_class() :
 			helium_tui_log_panel_(Make<helium_tui_log_panel_class>()),
@@ -52,17 +55,24 @@ export namespace helium {
 				{
 					"Summary",
 					"Servers",
-					"Settings"
+					"Extensions",
+					"Settings",
 				},
 				{
 					Empty(),
 					Empty(),
-					Empty()
+					Empty(),
+					helium_component_cast(Make<helium_tui_settings_panel_class>()),
 				}
-				))
+				)),
+			main_panel_container_(Container::Vertical(
+				{
+					this->helium_tui_top_menu_,
+					this->helium_tui_log_panel_
+				}
+			))
 		{
-			this->Add(this->helium_tui_log_panel_);
-			this->Add(this->helium_tui_top_menu_);
+			this->Add(this->main_panel_container_);
 		}
 
 		auto Render() -> Element final {
@@ -70,13 +80,13 @@ export namespace helium {
 					this->helium_tui_top_menu_->Render(),
 					separator(),
 					this->helium_tui_log_panel_->Render(),
-				}) | border;
+				}) | flex | border | reflect(this->box_);
 		}
 		auto OnEvent(Event event) -> bool final {
-			bool ret = true;
-			ret &= this->helium_tui_log_panel_->OnEvent(event);
-			ret &= this->helium_tui_top_menu_->OnEvent(event);
-			return ret;
+			if (event.is_mouse() && not this->box_.Contain(event.mouse().x, event.mouse().y)) {
+				return false;
+			}
+			return this->main_panel_container_->OnEvent(event);
 		}
 
 		auto get_logger_panel() const {

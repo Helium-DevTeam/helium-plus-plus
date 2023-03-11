@@ -49,16 +49,23 @@ export namespace helium {
 		Components tab_children_;
 		Component tab_container_;
 		Component tab_menu_;
+		Component top_menu_container_;
+		Box box_;
 	public:
 		explicit helium_tui_top_menu_class(vector<string> tab_entries, Components tab_children) :
 			selected_(0),
 			tab_entries_(tab_entries),
 			tab_children_(tab_children),
 			tab_container_(Container::Tab(this->tab_children_, &this->selected_)),
-			tab_menu_(Menu(&this->tab_entries_, &this->selected_, helium_horizontal_menu_option()))
+			tab_menu_(Menu(&this->tab_entries_, &this->selected_, helium_horizontal_menu_option())),
+			top_menu_container_(Container::Vertical(
+				{
+					this->tab_menu_,
+					this->tab_container_
+				}
+			))
 		{
-			this->Add(this->tab_container_);
-			this->Add(this->tab_menu_);
+			this->Add(this->top_menu_container_);
 		}
 
 		auto Render() -> Element final {
@@ -66,13 +73,13 @@ export namespace helium {
 				this->tab_menu_->Render(),
 				separator(),
 				this->tab_container_->Render()
-				});
+				})| flex | reflect(this->box_);
 		}
 		auto OnEvent(Event event) -> bool final {
-			bool ret = true;
-			ret &= this->tab_container_->OnEvent(event);
-			ret &= this->tab_menu_->OnEvent(event);
-			return ret;
+			if (event.is_mouse() && not this->box_.Contain(event.mouse().x, event.mouse().y)) {
+				return false;
+			}
+			return this->top_menu_container_->OnEvent(event);
 		}
 
 		auto to_string() const -> string override
